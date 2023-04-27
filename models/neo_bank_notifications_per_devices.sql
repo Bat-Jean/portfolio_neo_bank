@@ -6,6 +6,7 @@ notifications AS(
     SELECT * FROM {{ ref("neo_bank_notifications")}}
 )
 
+
 SELECT
     -- Key
     n.user_id,
