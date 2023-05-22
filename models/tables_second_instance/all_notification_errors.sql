@@ -3,6 +3,7 @@
         materialized = "table"
     )
 }}
+-- table aggregating the percentage of all notification errors
 
 WITH email_agg AS (
     SELECT * FROM {{ref("email_issues_aggregated")}}

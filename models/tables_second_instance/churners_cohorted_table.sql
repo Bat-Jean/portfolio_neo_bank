@@ -14,18 +14,21 @@ SELECT
     presence_days,
     ROUND(sum_transactions/presence_days, 2) AS avg_transactions_by_presence_days,
     DATETIME_DIFF("2019-04-30", last_transaction_date, DAY) AS number_of_days_without_activity,
+-- The last date that we have is 16th of May, in order to make cohorts, it's better to use a full month, so we will filter through users that haven't made a transaction in April 2019
     CASE   
         WHEN DATETIME_DIFF("2019-04-30", last_transaction_date, DAY) BETWEEN 30 AND 59 THEN "One month"
         WHEN DATETIME_DIFF("2019-04-30", last_transaction_date, DAY) BETWEEN 60 AND 89 THEN "Two months"
         WHEN DATETIME_DIFF("2019-04-30", last_transaction_date, DAY) >= 90 THEN "Three months or more"
     ELSE NULL
     END AS last_activity,
+
     CASE
         WHEN presence_days BETWEEN 1 AND 7 THEN "One week presence"
         WHEN presence_days BETWEEN 8 AND 30 THEN "One month presence"
         WHEN presence_days > 30 THEN "More than one month presence"
     ELSE NULL
     END AS presence_days_cohorts
+    
 FROM last_transaction
 WHERE Active_user = "Not Active"
 
